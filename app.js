@@ -31,12 +31,6 @@ document.addEventListener('DOMContentLoaded', () => {
                 click(square);
             });
 
-            // square.addEventListener('contextmenu', function(e){
-            //     e.preventDefault();
-            //     addFlag(square);
-            //     return false;
-            // }, false);
-
             square.oncontextmenu = function(e) {
                 e.preventDefault();
                 addFlag(square);
@@ -68,24 +62,56 @@ document.addEventListener('DOMContentLoaded', () => {
 
     function addFlag(square){
         if(isGameOver){return;}
-        if(!square.classList.contains('checked') && (flags < bombCount)){
+        console.log(flags +":"+bombCount)
+        if(!square.classList.contains('checked')){
             if(!square.classList.contains('flag')){
                 square.classList.add('flag');
                 square.innerHTML = '🏳️‍🌈';
                 flags++;
+                console.log(flags);
                 gameWon();
+                return;
             }else{
                 square.classList.remove('flag');
-                squares.innerHTML = '';
+                square.innerHTML = '';
                 flags--;
+                console.log(flags);
+                gameWon();
+                return;
             }
         }
+
+        // if(!square.classList.contains('checked') && (flags < bombCount)){
+        //     if(!square.classList.contains('flag')){
+        //         square.classList.add('flag');
+        //         square.innerHTML = '🏳️‍🌈';
+        //         flags++;
+        //         console.log(flags);
+        //         gameWon();
+        //         return;
+        //     }else{
+        //         square.classList.remove('flag');
+        //         square.innerHTML = '';
+        //         flags--;
+        //         console.log(flags);
+        //         return;
+        //     }
+        // }
+        // console.log(square.classList.contains('flags') +":" + flags + ":");
+        // if(square.classList.contains('flags')){
+        //     square.classList.remove('flag');
+        //     square.innerHTML = '';
+        //     flags--; 
+        // }
+        
+        console.log('the problem is here');
+        return;
     }
 
     function click(square){
         let currentId = square.id;
         if(isGameOver){return;}
-        if(square.classList.contains('checked') || square.classList.contains('flag')){return;}
+        if(square.classList.contains('checked') || square.classList.contains('flag')){console.log(square.classList.contains('checked') + ":" + square.classList.contains('flag'));return;}
         if(square.classList.contains('bomb')){
             gameOver(square);
             return;
@@ -165,7 +191,7 @@ document.addEventListener('DOMContentLoaded', () => {
         for(let i = 0; i < squares.length; i++){
             if(squares[i].classList.contains('flag') && squares[i].classList.contains('bomb')){cond++;}
         }
-        if(cond === bombCount){
+        if(cond === bombCount && cond === flags){
             console.log('Winner');
             isGameOver = true;
         }
